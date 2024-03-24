@@ -44,8 +44,36 @@ app.get('/charts', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-    
+
     res.render('login', {layout: false})
+})
+
+app.post('/login', async (req, res) => {
+    let username = req.body.username
+    let password = req.body.password
+
+    let userType = await business.checkLogin(username, password)
+    if (!userType) {
+        res.redirect("/login?message=Invalid Username/Password")
+        return
+    }
+
+    let session = await business.startSession({
+        username: username,
+        usertype: userType
+    })
+    res.cookie('session', session.sessionkey, {expires: session.expiry})
+
+    if (userType == 'public') {
+        res.redirect('/public')
+    }
+    else if (userType == 'member') {
+        res.redirect('/member')
+    }
+    else if(userType == 'admin'){
+        res.redirect('/admin')
+    }
+
 })
 
 app.get('/register', (req, res) => {
