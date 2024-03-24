@@ -24,7 +24,6 @@ app.get('/', (req, res) => {
 })
 
 app.get('/colors', (req, res) => {
-    res.set('Content-Type', 'text/html')
     res.render('colors', {layout: false})
 })
 
