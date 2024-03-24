@@ -8,7 +8,7 @@ async function connectDatabase() {
     if (!client) {
         client = new mongodb.MongoClient('mongodb+srv://saranashbat:sshdmhy135@infs3201.dpuxvt5.mongodb.net/')
         await client.connect()
-        db = client.db('assignment3')
+        db = client.db('project')
 
     }
 }

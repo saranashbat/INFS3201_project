@@ -23,7 +23,22 @@ app.get('/', (req, res) => {
     res.render('index', {layout: false})
 })
 
-app.get('/colors', (req, res) => {
+app.get('/colors', async (req, res) => {
+    let sessionKey = req.cookies.session
+    if (!sessionKey) {
+        res.redirect("/login?message=Not logged in")
+        return
+    }
+    let sessionData = await business.getSessionData(sessionKey)
+    if (!sessionData) {
+        res.redirect("/login?message=Not logged in")
+        return
+    }
+
+    if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'public') {
+        res.redirect("/login?message=Invalid User Type")
+        return
+    }
     res.render('colors', {layout: false})
 })
 
@@ -65,13 +80,13 @@ app.post('/login', async (req, res) => {
     res.cookie('session', session.sessionkey, {expires: session.expiry})
 
     if (userType == 'public') {
-        res.redirect('/public')
+        res.redirect('/colors')
     }
     else if (userType == 'member') {
-        res.redirect('/member')
+        res.redirect('/typography')
     }
     else if(userType == 'admin'){
-        res.redirect('/admin')
+        res.redirect('/widgets')
     }
 
 })
@@ -81,13 +96,42 @@ app.get('/register', (req, res) => {
     res.render('register', {layout: false})
 })
 
-app.get('/typography', (req, res) => {
+app.get('/typography', async (req, res) => {
+    let sessionKey = req.cookies.session
+    if (!sessionKey) {
+        res.redirect("/login?message=Not logged in")
+        return
+    }
+    let sessionData = await business.getSessionData(sessionKey)
+    if (!sessionData) {
+        res.redirect("/login?message=Not logged in")
+        return
+    }
+
+    if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'member') {
+        res.redirect("/login?message=Invalid User Type")
+        return
+    }
     
     res.render('typography', {layout: false})
 })
 
-app.get('/widgets', (req, res) => {
-    
+app.get('/widgets', async (req, res) => {
+    let sessionKey = req.cookies.session
+    if (!sessionKey) {
+        res.redirect("/login?message=Not logged in")
+        return
+    }
+    let sessionData = await business.getSessionData(sessionKey)
+    if (!sessionData) {
+        res.redirect("/login?message=Not logged in")
+        return
+    }
+
+    if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'admin') {
+        res.redirect("/login?message=Invalid User Type")
+        return
+    }
     res.render('widgets', {layout: false})
 })
 
