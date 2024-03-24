@@ -33,9 +33,9 @@ app.get('/404', (req, res) => {
 })
 
 
-app.get('/505', (req, res) => {
+app.get('/500', (req, res) => {
     
-    res.render('505', {layout: false})
+    res.render('500', {layout: false})
 })
 
 app.get('/charts', (req, res) => {
