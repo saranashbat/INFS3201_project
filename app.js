@@ -35,7 +35,7 @@ app.get('/colors', async (req, res) => {
         return
     }
 
-    if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'public') {
+    if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'member') {
         res.redirect("/login?message=Invalid User Type")
         return
     }
@@ -79,14 +79,11 @@ app.post('/login', async (req, res) => {
     })
     res.cookie('session', session.sessionkey, {expires: session.expiry})
 
-    if (userType == 'public') {
+    if (userType == 'member') {
         res.redirect('/colors')
     }
-    else if (userType == 'member') {
-        res.redirect('/typography')
-    }
     else if(userType == 'admin'){
-        res.redirect('/widgets')
+        res.redirect('/typography')
     }
 
 })
@@ -108,7 +105,7 @@ app.get('/typography', async (req, res) => {
         return
     }
 
-    if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'member') {
+    if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'admin') {
         res.redirect("/login?message=Invalid User Type")
         return
     }
@@ -117,21 +114,7 @@ app.get('/typography', async (req, res) => {
 })
 
 app.get('/widgets', async (req, res) => {
-    let sessionKey = req.cookies.session
-    if (!sessionKey) {
-        res.redirect("/login?message=Not logged in")
-        return
-    }
-    let sessionData = await business.getSessionData(sessionKey)
-    if (!sessionData) {
-        res.redirect("/login?message=Not logged in")
-        return
-    }
-
-    if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'admin') {
-        res.redirect("/login?message=Invalid User Type")
-        return
-    }
+    
     res.render('widgets', {layout: false})
 })
 
