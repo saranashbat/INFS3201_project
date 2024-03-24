@@ -38,7 +38,7 @@ async function saveSession(sessionkey, expiry, data) {
 async function getSessionData(key) {
     await connectDatabase()
     let sessionData = db.collection('SessionData')
-    let result = await sessionData.find({key: key})
+    let result = await sessionData.find({sessionkey: key})
     let resultData = await result.toArray()
     return resultData[0]
 }
@@ -48,7 +48,7 @@ async function deleteSession(key) {
     await connectDatabase()
     let sessionData = db.collection('SessionData')
 
-    await sessionData.deleteOne({key: key})
+    await sessionData.deleteOne({sessionkey: key})
 }
 
 
