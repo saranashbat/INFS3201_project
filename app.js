@@ -27,4 +27,40 @@ app.get('/colors', (req, res) => {
     res.render('colors', {layout: false})
 })
 
+app.get('/404', (req, res) => {
+    
+    res.render('404', {layout: false})
+})
+
+
+app.get('/505', (req, res) => {
+    
+    res.render('505', {layout: false})
+})
+
+app.get('/charts', (req, res) => {
+    
+    res.render('charts', {layout: false})
+})
+
+app.get('/login', (req, res) => {
+    
+    res.render('login', {layout: false})
+})
+
+app.get('/register', (req, res) => {
+    
+    res.render('register', {layout: false})
+})
+
+app.get('/typography', (req, res) => {
+    
+    res.render('typography', {layout: false})
+})
+
+app.get('/widgets', (req, res) => {
+    
+    res.render('widgets', {layout: false})
+})
+
 app.listen(8000, () => {console.log('Running')})
