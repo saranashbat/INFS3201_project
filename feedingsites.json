@@ -1,0 +1,21 @@
+[
+    {
+      "site_id": 1,
+      "location": "Al Bidda Park",
+      "description": "Al Bidda Park is a popular spot for stray cats. Feeding station located near the entrance.",
+      "status": "active"
+    },
+    {
+      "site_id": 2,
+      "location": "Aspire Park",
+      "description": "Feeding station set up near the playground area, where many stray cats are often seen.",
+      "status": "active"
+    },
+    {
+      "site_id": 3,
+      "location": "Souq Waqif",
+      "description": "Feeding station located in the alley behind the market area, frequented by stray cats.",
+      "status": "inactive"
+    }
+  ]
+  
