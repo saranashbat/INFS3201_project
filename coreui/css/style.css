@@ -14033,4 +14033,10 @@ html:not([dir=rtl]) .wrapper {
   margin-bottom: 0.5rem;
 }
 
+
+.catlogo{
+  width: 100px; 
+  height: auto; 
+  margin-right: 10px;
+}
 /*# sourceMappingURL=style.css.map */
