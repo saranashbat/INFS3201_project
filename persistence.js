@@ -62,7 +62,7 @@ async function getAllLocations(){
 async function getLocation(location){
     await connectDatabase()
     let locations = db.collection('FeedingSites')
-    let result = await locations.find({name: location}).toArray()
+    let result = await locations.findOne({name: location})
 
     return result
 }

@@ -122,12 +122,11 @@ app.use('/posts/:name', express.static(path.join(__dirname, 'coreui')));
 
 app.get('/posts/:name', async (req, res) =>{
     let location = req.params.name
-    let siteData = await business.getLocation(location)
+    let data = await business.getLocation(location)
 
-    if(siteData){
-        res.render('posts', {layout: false})
-        
-    }
+    if(data){
+        res.render('posts', {layout: false, data: data})
+    }//put 404 error
 })
 
 app.listen(8000, () => {console.log('Running')})
