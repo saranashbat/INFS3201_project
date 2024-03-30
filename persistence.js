@@ -51,7 +51,7 @@ async function deleteSession(key) {
     await sessionData.deleteOne({sessionkey: key})
 }
 
-async function getLocations(){
+async function getAllLocations(){
     await connectDatabase()
     let locations = db.collection('FeedingSites')
     let result = await locations.find().toArray()
@@ -59,7 +59,15 @@ async function getLocations(){
     return result
 }
 
+async function getLocation(location){
+    await connectDatabase()
+    let locations = db.collection('FeedingSites')
+    let result = await locations.find({name: location}).toArray()
+
+    return result
+}
+
 
 module.exports = {
-    getUserDetails, saveSession, getSessionData, deleteSession, getLocations
+    getUserDetails, saveSession, getSessionData, deleteSession, getAllLocations, getLocation
 }

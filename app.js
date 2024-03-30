@@ -54,7 +54,7 @@ app.get('/500', (req, res) => {
 })
 
 app.get('/colors', async (req, res) => {
-    let locations = await business.getLocations() 
+    let locations = await business.getAllLocations() 
     res.render('colors', {layout: false, location: locations})
 })
 
@@ -116,6 +116,18 @@ app.get('/typography', async (req, res) => {
 app.get('/widgets', async (req, res) => {
     
     res.render('widgets', {layout: false})
+})
+
+app.use('/posts/:name', express.static(path.join(__dirname, 'coreui')));
+
+app.get('/posts/:name', async (req, res) =>{
+    let location = req.params.name
+    let siteData = await business.getLocation(location)
+
+    if(siteData){
+        res.render('posts', {layout: false})
+        
+    }
 })
 
 app.listen(8000, () => {console.log('Running')})
