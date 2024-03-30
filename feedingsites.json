@@ -5,7 +5,7 @@
     "description": "Al Bidda Park, nestled in the heart of Doha, Qatar, is a beloved green space for locals and tourists alike. Within its confines, stray cats have found a home. Near the park entrance, a feeding station ensures these cats are cared for by dedicated volunteers. The station provides food, water, and medical support, fostering a sense of community among park visitors. As the sun sets, the park echoes with the contented purring of its feline residents, a heartwarming reminder of our shared responsibility to care for all creatures.",
     "image": "location1.jpg",
     "name": "albidapark",
-    "post": {
+    "post": [{
       "title": "Volunteer Update from Al Bidda Park",
       "content": "Today, I had the pleasure of volunteering at Al Bidda Park's feeding station. I refilled the food and water containers, and spent some time interacting with the lovely cats. They all seemed healthy and content. Let's continue to support these beautiful creatures!",
       "user": "volunteer123",
@@ -18,7 +18,7 @@
       },
       "timestamp": "2024-03-30T10:00:00Z",
       "health_issue": "No health issues reported"
-    }
+    }]
   },
   {
     "site_id": 2,
@@ -26,7 +26,7 @@
     "description": "Aspire Park, located in Doha, Qatar, is known for its lively playground area, which also serves as a gathering spot for stray cats. Near this playground, a feeding station has been set up to provide food and water for these feline residents. Managed by dedicated volunteers, the station fosters a sense of community among park visitors. As the day winds down, the comforting purrs of the cats near the feeding station remind us of the importance of caring for all creatures.",
     "image": "location2.jpg",
     "name": "aspirepark",
-    "post": {
+    "post": [{
       "title": "Feeding Station Update from Aspire Park",
       "content": "Visited Aspire Park today to check on the feeding station. Refilled the food and water containers and observed five cats enjoying their meal. Everything seems in order, but more volunteers are always welcome!",
       "user": "animallover567",
@@ -39,7 +39,7 @@
       },
       "timestamp": "2024-03-30T11:30:00Z",
       "health_issue": "Health issue reported: Injured cat"
-    }
+    }]
   },
   {
     "site_id": 3,
@@ -47,7 +47,7 @@
     "description": "Located in the heart of Doha, Qatar, Souq Waqif is a bustling marketplace known for its vibrant atmosphere. Behind the market area, in a quiet alley, you'll find a feeding station frequented by stray cats. This spot provides food and care for these feline visitors, attracting the attention of compassionate individuals. As the day winds down, the presence of these cats serves as a gentle reminder of the importance of compassion towards all creatures.",
     "image": "location3.jpg",
     "name": "souqwaqif",
-    "post": {
+    "post": [{
       "title": "Caring for Cats at Souq Waqif",
       "content": "Spent the afternoon at Souq Waqif feeding station. Added fresh food and water, and noticed a new cat has joined the group. Despite the busy surroundings, these cats bring a sense of tranquility to the area.",
       "user": "catlover999",
@@ -60,6 +60,6 @@
       },
       "timestamp": "2024-03-30T13:00:00Z",
       "health_issue": "No health issues reported"
-    }
+    }]
   }
 ]

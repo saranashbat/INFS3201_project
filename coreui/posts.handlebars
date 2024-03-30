@@ -257,9 +257,25 @@
           <h1>{{data.location}} - Posts</h1>
           <div class="card mb-4">
             <div class="card-body">
-              
+                {{#each data.posts}}
+                <div class="row" style="margin-top: 50px; margin-bottom: 50px;">
+                  <div style="text-align: left" >
+                      <div class="card">
+                        <div class="card-body">
+                            <div class="card-title fw-bold">{{this.title}}</div>
+                            <div class="fw-light fs-6">{{this.user}}</div>
+                            <div class="card-body">{{this.content}}</div>
+
+                            <div class="card-title">Visit Details</div>
+                            <div class="text"></div>
+                            <img src="{{this.image}}" alt="image">
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              {{/each}}
                   
-              </div>
+              
             </div>
           </div>
         </div>
