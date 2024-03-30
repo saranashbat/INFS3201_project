@@ -37,7 +37,11 @@ async function deleteSession(key) {
     await persistence.deleteSession(key)
 }
 
+async function getLocations(){
+    return await persistence.getLocations()
+}
+
 
 module.exports = {
-    checkLogin, startSession, getSessionData, deleteSession
+    checkLogin, startSession, getSessionData, deleteSession, getLocations
 }

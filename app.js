@@ -53,9 +53,9 @@ app.get('/500', (req, res) => {
     res.render('500', {layout: false})
 })
 
-app.get('/colors', (req, res) => {
-    
-    res.render('colors', {layout: false})
+app.get('/colors', async (req, res) => {
+    let locations = await business.getLocations() 
+    res.render('colors', {layout: false, location: locations})
 })
 
 app.get('/login', (req, res) => {

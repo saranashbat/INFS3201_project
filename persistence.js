@@ -51,7 +51,15 @@ async function deleteSession(key) {
     await sessionData.deleteOne({sessionkey: key})
 }
 
+async function getLocations(){
+    await connectDatabase()
+    let locations = db.collection('FeedingSites')
+    let result = await locations.find().toArray()
+
+    return result
+}
+
 
 module.exports = {
-    getUserDetails, saveSession, getSessionData, deleteSession
+    getUserDetails, saveSession, getSessionData, deleteSession, getLocations
 }
