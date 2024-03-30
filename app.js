@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
     res.render('index', {layout: false})
 })
 
-app.get('/colors', async (req, res) => {
+app.get('/charts', async (req, res) => {
     let sessionKey = req.cookies.session
     if (!sessionKey) {
         res.redirect("/login?message=Not logged in")
@@ -39,7 +39,7 @@ app.get('/colors', async (req, res) => {
         res.redirect("/login?message=Invalid User Type")
         return
     }
-    res.render('colors', {layout: false})
+    res.render('charts', {layout: false})
 })
 
 app.get('/404', (req, res) => {
@@ -53,9 +53,9 @@ app.get('/500', (req, res) => {
     res.render('500', {layout: false})
 })
 
-app.get('/charts', (req, res) => {
+app.get('/colors', (req, res) => {
     
-    res.render('charts', {layout: false})
+    res.render('colors', {layout: false})
 })
 
 app.get('/login', (req, res) => {
