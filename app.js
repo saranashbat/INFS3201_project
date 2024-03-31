@@ -118,7 +118,7 @@ app.get('/widgets', async (req, res) => {
     res.render('widgets', {layout: false})
 })
 
-app.use('/posts/:name', express.static(path.join(__dirname, 'coreui')));
+app.use('/posts/:name', express.static(path.join(__dirname, 'coreui')))
 
 app.get('/posts/:name', async (req, res) =>{
     let location = req.params.name
@@ -128,5 +128,16 @@ app.get('/posts/:name', async (req, res) =>{
         res.render('posts', {layout: false, data: data})
     }//put 404 error
 })
+
+app.get('/posts/:name/add', async (req, res) =>{
+    let location = req.params.name
+    let data = await business.getLocation(location)
+
+    if(data){
+        res.render('addpost', {layout: false, data: data})
+    }//put 404 error
+})
+
+
 
 app.listen(8000, () => {console.log('Running')})
