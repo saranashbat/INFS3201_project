@@ -45,7 +45,11 @@ async function getLocation(location){
     return await persistence.getLocation(location)
 }
 
+async function addPost(locationName, postData){
+    await persistence.addPost(locationName, postData)
+}
+
 
 module.exports = {
-    checkLogin, startSession, getSessionData, deleteSession, getAllLocations, getLocation
+    checkLogin, startSession, getSessionData, deleteSession, getAllLocations, getLocation, addPost
 }

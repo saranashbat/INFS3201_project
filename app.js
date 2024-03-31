@@ -4,9 +4,11 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser') 
 const handlebars = require('express-handlebars')
 const path = require('path');
+const fileUpload=require('express-fileupload')
 
 
 let app = express()
+app.use(fileUpload())
 
 
 app.set('views', __dirname+"/coreui")
@@ -139,6 +141,65 @@ app.get('/posts/:name/add', async (req, res) =>{
         res.render('addpost', {layout: false, data: data})
     }//put 404 error
 })
+
+
+app.post('/posts/:name/add', async (req, res) =>{
+    let location = req.params.name
+    let data = await business.getLocation(location)
+
+    if(data){
+
+        let sessionKey = req.cookies.session
+        if (!sessionKey) {
+            res.redirect("/login?message=Not logged in")
+            return
+        }
+        let sessionData = await business.getSessionData(sessionKey)
+        if (!sessionData) {
+            res.redirect("/login?message=Not logged in")
+            return
+        }
+
+        if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'member') {
+            res.redirect("/login?message=Invalid User Type")
+            return
+        }
+
+        //imageUpload
+        let image = req.files.image
+        let fileName = image.name
+
+        const extensions = ['.jpg', '.jpeg', '.png', '.gif'];
+        const fileExtension = path.extname(fileName).toLowerCase();
+
+        if (!extensions.includes(fileExtension)) {
+            // Not a supported file extension
+            //ERROR
+            return
+        }
+
+        await image.mv(`${__dirname}/coreui/images/${fileName}`)
+
+        let postData = {
+            title: req.body.title, 
+            content: req.body.content,
+            user: sessionData.data.username,
+            image: fileName,
+            food_added: req.body.food_added,
+            water_added: req.body.water_added,
+            current_food_level: req.body.current_food_level, 
+            cat_count: req.body.cat_count,
+            health_issue: req.body.health_issue, 
+            timestamp: new Date().toISOString()
+        }
+
+        let locationName = data.name
+
+        await business.addPost(locationName, postData)
+
+    }//put 404 error
+})
+
 
 
 

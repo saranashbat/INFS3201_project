@@ -68,6 +68,13 @@ async function getLocation(location){
 }
 
 
+async function addPost(locationName, postData){
+    await connectDatabase()
+    let locations = db.collection('FeedingSites')
+
+    await locations.updateOne({ name: locationName }, { $push: { posts: postData } })
+}
+
 module.exports = {
-    getUserDetails, saveSession, getSessionData, deleteSession, getAllLocations, getLocation
+    getUserDetails, saveSession, getSessionData, deleteSession, getAllLocations, getLocation, addPost
 }
