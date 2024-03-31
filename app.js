@@ -24,21 +24,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/charts', async (req, res) => {
-    let sessionKey = req.cookies.session
-    if (!sessionKey) {
-        res.redirect("/login?message=Not logged in")
-        return
-    }
-    let sessionData = await business.getSessionData(sessionKey)
-    if (!sessionData) {
-        res.redirect("/login?message=Not logged in")
-        return
-    }
-
-    if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'member') {
-        res.redirect("/login?message=Invalid User Type")
-        return
-    }
+    
     res.render('charts', {layout: false})
 })
 
@@ -80,10 +66,10 @@ app.post('/login', async (req, res) => {
     res.cookie('session', session.sessionkey, {expires: session.expiry})
 
     if (userType == 'member') {
-        res.redirect('/colors')
+        res.redirect('/')
     }
     else if(userType == 'admin'){
-        res.redirect('/typography')
+        res.redirect('/')
     }
 
 })
@@ -134,6 +120,22 @@ app.get('/posts/:name/add', async (req, res) =>{
     let data = await business.getLocation(location)
 
     if(data){
+        let sessionKey = req.cookies.session
+        if (!sessionKey) {
+            res.redirect("/login?message=Not logged in")
+            return
+        }
+        let sessionData = await business.getSessionData(sessionKey)
+        if (!sessionData) {
+            res.redirect("/login?message=Not logged in")
+            return
+        }
+
+        if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'member') {
+            res.redirect("/login?message=Invalid User Type")
+            return
+        }
+
         res.render('addpost', {layout: false, data: data})
     }//put 404 error
 })
