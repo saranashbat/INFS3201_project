@@ -8,16 +8,14 @@
     "post": [{
       "title": "Volunteer Update from Al Bidda Park",
       "content": "Today, I had the pleasure of volunteering at Al Bidda Park's feeding station. I refilled the food and water containers, and spent some time interacting with the lovely cats. They all seemed healthy and content. Let's continue to support these beautiful creatures!",
-      "user": "volunteer123",
+      "user": "user2",
       "image": "albidapark_volunteer.jpg",
-      "visit_details": {
-        "food_added": "2 kg",
-        "water_added": "1 liter",
-        "current_food_level": "Medium",
-        "cat_count": 8
-      },
       "timestamp": "2024-03-30T10:00:00Z",
-      "health_issue": "No health issues reported"
+      "health_issue": "No health issues reported",
+      "food_added": "2 kg",
+      "water_added": "1 liter",
+      "current_food_level": "Medium",
+      "cat_count": 8
     }]
   },
   {
@@ -29,16 +27,14 @@
     "post": [{
       "title": "Feeding Station Update from Aspire Park",
       "content": "Visited Aspire Park today to check on the feeding station. Refilled the food and water containers and observed five cats enjoying their meal. Everything seems in order, but more volunteers are always welcome!",
-      "user": "animallover567",
+      "user": "user2",
       "image": "aspirepark_feeding.jpg",
-      "visit_details": {
-        "food_added": "3 kg",
-        "water_added": "2 liters",
-        "current_food_level": "High",
-        "cat_count": 5
-      },
       "timestamp": "2024-03-30T11:30:00Z",
-      "health_issue": "Health issue reported: Injured cat"
+      "health_issue": "Health issue reported: Injured cat",
+      "food_added": "3 kg",
+      "water_added": "2 liters",
+      "current_food_level": "High",
+      "cat_count": 5
     }]
   },
   {
@@ -50,16 +46,14 @@
     "post": [{
       "title": "Caring for Cats at Souq Waqif",
       "content": "Spent the afternoon at Souq Waqif feeding station. Added fresh food and water, and noticed a new cat has joined the group. Despite the busy surroundings, these cats bring a sense of tranquility to the area.",
-      "user": "catlover999",
+      "user": "user2",
       "image": "souqwaqif_cats.jpg",
-      "visit_details": {
-        "food_added": "1.5 kg",
-        "water_added": "1.5 liters",
-        "current_food_level": "Low",
-        "cat_count": 7
-      },
       "timestamp": "2024-03-30T13:00:00Z",
-      "health_issue": "No health issues reported"
+      "health_issue": "No health issues reported",
+      "food_added": "1.5 kg",
+      "water_added": "1.5 liters",
+      "current_food_level": "Low",
+      "cat_count": 7
     }]
   }
 ]
