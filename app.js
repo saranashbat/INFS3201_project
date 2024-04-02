@@ -166,6 +166,11 @@ app.post('/posts/:name/add', async (req, res) =>{
         }
 
         //imageUpload
+
+        if(!req.files || !req.files.image){
+            return 
+        }
+
         let image = req.files.image
         let fileName = image.name
 
