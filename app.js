@@ -112,34 +112,40 @@ app.get('/posts/:name', async (req, res) =>{
     let location = req.params.name
     let data = await business.getLocation(location)
 
-    if(data){
-        res.render('posts', {layout: false, data: data})
-    }//put 404 error
+    if(!data){
+        res.status(404).render('404', {layout: false})
+        return
+    }
+    res.render('posts', {layout: false, data: data})
+
 })
 
 app.get('/posts/:name/add', async (req, res) =>{
     let location = req.params.name
     let data = await business.getLocation(location)
 
-    if(data){
-        let sessionKey = req.cookies.session
-        if (!sessionKey) {
-            res.redirect("/login?message=Not logged in")
-            return
-        }
-        let sessionData = await business.getSessionData(sessionKey)
-        if (!sessionData) {
-            res.redirect("/login?message=Not logged in")
-            return
-        }
+    if(!data){
+        res.status(404).render('404', {layout: false})
+        return
+    }
 
-        if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'member') {
-            res.redirect("/login?message=Invalid User Type")
-            return
-        }
+    let sessionKey = req.cookies.session
+    if (!sessionKey) {
+        res.redirect("/login?message=Not logged in")
+        return
+    }
+    let sessionData = await business.getSessionData(sessionKey)
+    if (!sessionData) {
+        res.redirect("/login?message=Not logged in")
+        return
+    }
 
-        res.render('addpost', {layout: false, data: data})
-    }//put 404 error
+    if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'member') {
+        res.redirect("/login?message=Invalid User Type")
+        return
+    }
+
+    res.render('addpost', {layout: false, data: data})
 })
 
 
@@ -147,65 +153,83 @@ app.post('/posts/:name/add', async (req, res) =>{
     let location = req.params.name
     let data = await business.getLocation(location)
 
-    if(data){
+    if(!data){
+        return
+    }
 
-        let sessionKey = req.cookies.session
-        if (!sessionKey) {
-            res.redirect("/login?message=Not logged in")
-            return
-        }
-        let sessionData = await business.getSessionData(sessionKey)
-        if (!sessionData) {
-            res.redirect("/login?message=Not logged in")
-            return
-        }
+    let sessionKey = req.cookies.session
+    if (!sessionKey) {
+        res.redirect("/login?message=Not logged in")
+        return
+    }
+    let sessionData = await business.getSessionData(sessionKey)
+    if (!sessionData) {
+        res.redirect("/login?message=Not logged in")
+        return
+    }
 
-        if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'member') {
-            res.redirect("/login?message=Invalid User Type")
-            return
-        }
+    if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'member') {
+        res.redirect("/login?message=Invalid User Type")
+        return
+    }
 
-        //imageUpload
-
-        if(!req.files || !req.files.image){
-            return 
-        }
-
+    let errors = {}
+    //image upload check
+    let fileName = ''
+    if(req.files && req.files.image){
         let image = req.files.image
-        let fileName = image.name
+        fileName = image.name
 
         const extensions = ['.jpg', '.jpeg', '.png', '.gif'];
         const fileExtension = path.extname(fileName).toLowerCase();
 
         if (!extensions.includes(fileExtension)) {
-            // Not a supported file extension
-            //ERROR
-            return
+            errors.extError = "Please add a file with a supported extension (.jpg, .jpeg, .png, .gif)"
+            
         }
 
         await image.mv(`${__dirname}/coreui/images/${fileName}`)
+    }
 
-        let postData = {
-            title: req.body.title, 
-            content: req.body.content,
-            user: sessionData.data.username,
-            image: fileName,
-            food_added: req.body.food_added,
-            water_added: req.body.water_added,
-            current_food_level: req.body.current_food_level, 
-            cat_count: req.body.cat_count,
-            health_issue: req.body.health_issue, 
-            timestamp: new Date().toISOString()
-        }
+    
+    if (!req.body.title || req.body.title.trim() == '') {
+        errors.titleError = "Please enter a title."
+    }
 
-        let locationName = data.name
+    if (!req.body.content || req.body.content.trim() == '') {
+        errors.contentError = "Please enter a description."
+    }
 
-        await business.addPost(locationName, postData)
+    if (Object.keys(errors).length > 0) {
+        res.render('addpost', { layout: false, data: data, errors: errors })
+        return
+    }
 
-    }//put 404 error
+    let postData = {
+        title: req.body.title, 
+        content: req.body.content,
+        user: sessionData.data.username,
+        image: fileName,
+        food_added: req.body.food_added,
+        water_added: req.body.water_added,
+        current_food_level: req.body.current_food_level, 
+        cat_count: req.body.cat_count,
+        health_issue: req.body.health_issue, 
+        timestamp: new Date().toISOString()
+    }
+
+    let locationName = data.name
+
+    await business.addPost(locationName, postData)
+
+    let message = 'Post Added'
+
+    res.redirect(`/posts/${location}?message=${message}`)
 })
 
-
+app.use((req,res) => {
+    res.status(404).render('404', {layout: undefined});
+});
 
 
 app.listen(8000, () => {console.log('Running')})
