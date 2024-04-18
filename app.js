@@ -20,9 +20,19 @@ app.use(express.static(path.join(__dirname, 'coreui')));
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(cookieParser())
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+
+    userData = ''
+    let session = req.cookies.session
+    if(session){
+        let sessionData = await business.getSessionData(session)
+        if (sessionData){
+            userData = sessionData.data
+        }
+    }
+
     
-    res.render('index', {layout: false})
+    res.render('index', {layout: false, userData: userData})
 })
 
 app.get('/charts', async (req, res) => {
@@ -41,9 +51,17 @@ app.get('/500', (req, res) => {
     res.render('500', {layout: false})
 })
 
-app.get('/colors', async (req, res) => {
+app.get('/locations', async (req, res) => {
+    userData = ''
+    let session = req.cookies.session
+    if(session){
+        let sessionData = await business.getSessionData(session)
+        if (sessionData){
+            userData = sessionData.data
+        }
+    }
     let locations = await business.getAllLocations() 
-    res.render('colors', {layout: false, location: locations})
+    res.render('locations', {layout: false, location: locations, userData: userData})
 })
 
 app.get('/login', (req, res) => {
@@ -75,6 +93,22 @@ app.post('/login', async (req, res) => {
     }
 
 })
+
+app.get('/logout', async (req, res) => {
+    await business.deleteSession(req.cookies.session)
+    res.clearCookie('session')
+    res.redirect('/')
+})
+
+app.get('/resetpassword', (req, res) =>{
+    res.render('resetpassword', {layout: false})
+})
+
+/*app.post('/resetpassword', async (req, res) =>{
+
+
+})*/
+
 
 app.get('/register', (req, res) => {
     
@@ -131,8 +165,8 @@ app.post('/register', async (req, res) => {
 
 })
 
-app.get('/typography', async (req, res) => {
-    /*let sessionKey = req.cookies.session
+app.get('/dashboard', async (req, res) => {
+    let sessionKey = req.cookies.session
     if (!sessionKey) {
         res.redirect("/login?message=Not logged in")
         return
@@ -146,11 +180,12 @@ app.get('/typography', async (req, res) => {
     if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'admin') {
         res.redirect("/login?message=Invalid User Type")
         return
-    }*/
+    }
+    
     
     let allLocations = await business.getAllLocations()
 
-    res.render('typography', {layout: false, allLocations: allLocations})
+    res.render('dashboard', {layout: false, allLocations: allLocations, userData: sessionData.data})
 })
 
 app.get('/widgets', async (req, res) => {
@@ -168,7 +203,17 @@ app.get('/posts/:name', async (req, res) =>{
         res.status(404).render('404', {layout: false})
         return
     }
-    res.render('posts', {layout: false, data: data})
+
+    userData = ''
+    let session = req.cookies.session
+    if(session){
+        let sessionData = await business.getSessionData(session)
+        if (sessionData){
+            userData = sessionData.data
+        }
+    }
+
+    res.render('posts', {layout: false, data: data, userData: userData})
 
 })
 
@@ -199,7 +244,7 @@ app.get('/posts/:name/add', async (req, res) =>{
 
     let token = await business.generateFormToken(sessionKey)
 
-    res.render('addpost', {layout: false, data: data, csrfToken: token})
+    res.render('addpost', {layout: false, data: data, csrfToken: token, userData: sessionData.data})
 })
 
 
@@ -293,6 +338,8 @@ app.post('/posts/:name/add', async (req, res) =>{
     let message = 'Post Added'
     res.redirect(`/posts/${location}?message=${message}`)
 })
+
+
 
 app.get('/dashboard/data', async (req, res) => {
     let allLocations = await business.getAllLocations()

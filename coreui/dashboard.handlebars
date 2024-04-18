@@ -104,43 +104,76 @@
         
         
       </header>
+      <div>
       <div class="body flex-grow-1 px-3">
         <div class="container-lg">
-          <h1>{{data.location}} - Posts</h1>
-          <div class="card mb-4">
-            <div class="card-body">
-                {{#each data.posts}}
-                <div class="row" style="margin-top: 50px; margin-bottom: 50px;">
-                  <div style="text-align: left" >
-                      <div class="card" style="background-color: #f7fbff;">
-                        <div class="card-body">
-                            <div class="card-title fw-bold">{{this.title}}</div>
-                            <div class="fw-light fs-6">{{this.user}}</div>
-                            <div class="card-body">{{this.content}}</div>
+                <h2>Admin Dashboard</h2>
 
-                            <div class="card-title">Visit Details</div>
-                            <div class="card-body">
-                                <ul>
-                                    <li>Food Added: {{this.food_added}} kg</li>
-                                    <li>Water Added: {{this.water_added}} Liters</li>
-                                    <li>Current Food Level: {{this.current_food_level}}</li>
-                                    <li>Cat Count: {{this.cat_count}}</li>
-                                    <li>Health Issue: {{this.health_issue}}</li>
-                                </ul>
-                            </div>
-                            <div class="text"></div>
-                            <img src="/images/{{this.image}}" alt="image" style="width: 30%; height: auto;">
+      <div class="card mb-4">
+            <div class="card-body">
+
+            <div class="card mb-4" style="background-image: url('/images/latest.jpg'); background-size: cover;">
+              <div class="card-body" style="text-align: center;">
+                <h3 class="mb-4">Latest Visits</h3>
+                <div id="latest"></div>
+              </div>
+          </div>
+          
+              
+
+              <div class="col">
+              <div class="card mb-4">
+                <div class="card-header"><strong>Amount of Food Added During Latest Visit</strong></div>
+                <div class="card-body">
+                  <div class="example">
+                    
+                    <div class="tab-content rounded-bottom">
+                      <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1001">
+                        <div class="c-chart-wrapper">
+                          <canvas id="canvas-2" ></canvas>
                         </div>
-                        
                       </div>
+                    </div>
                   </div>
                 </div>
-              {{/each}}
-                <a style="text-decoration: none; color: black;" href="/posts/{{data.name}}/add"><button style="font-size: 15px; display: block; margin: 20px auto 20px auto;" class="btn btn-light" type="button" fdprocessedid="y9xouh"><strong>Add Post</strong></button></a>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="card mb-4">
+                <div class="card-header"><strong>Amount of Water Added During Latest Visit</strong></div>
+                <div class="card-body">
+                  <div class="example">
+                    
+                    <div class="tab-content rounded-bottom">
+                      <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1001">
+                        <div class="c-chart-wrapper">
+                          <canvas id="canvas-2-1" ></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card mb-4" style="background-image: url('/images/health.jpg'); background-size: cover;">
+              <div class="card-body" style="text-align: center;">
+                <h3 class="mb-4">Latest Health Issues</h3>
+                <div id="health"></div>
+              </div>
+          </div>
+              
+            </div>
             </div>
           </div>
-        </div>
-      </div>
+          
+          </div>
+          
+          
+          </div>
+          
+        
       <footer class="footer">
         <div><a href="https://coreui.io">CoreUI </a><a href="https://coreui.io">Bootstrap Admin Template</a> © 2023 creativeLabs.</div>
         <div class="ms-auto">Powered by&nbsp;<a href="https://coreui.io/docs/">CoreUI UI Components</a></div>
@@ -149,11 +182,9 @@
     <!-- CoreUI and necessary plugins-->
     <script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
     <script src="vendors/simplebar/js/simplebar.min.js"></script>
-    <!-- Plugins and scripts required by this view-->
-    <script src="vendors/@coreui/utils/js/coreui-utils.js"></script>
-    <script src="js/colors.js"></script>
-    <script>
-    </script>
+    <script src="vendors/chart.js/js/chart.min.js"></script>
+    <script src="vendors/@coreui/chartjs/js/coreui-chartjs.js"></script>
+    <script src="js/charts.js"></script>
 
   </body>
 </html>

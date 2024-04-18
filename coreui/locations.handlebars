@@ -106,37 +106,26 @@
       </header>
       <div class="body flex-grow-1 px-3">
         <div class="container-lg">
-          <h1>{{data.location}} - Posts</h1>
+          <h1>Locations</h1>
           <div class="card mb-4">
             <div class="card-body">
-                {{#each data.posts}}
+              {{#each location}}
                 <div class="row" style="margin-top: 50px; margin-bottom: 50px;">
-                  <div style="text-align: left" >
+                  <div style="text-align: center" >
                       <div class="card" style="background-color: #f7fbff;">
                         <div class="card-body">
-                            <div class="card-title fw-bold">{{this.title}}</div>
-                            <div class="fw-light fs-6">{{this.user}}</div>
-                            <div class="card-body">{{this.content}}</div>
-
-                            <div class="card-title">Visit Details</div>
-                            <div class="card-body">
-                                <ul>
-                                    <li>Food Added: {{this.food_added}} kg</li>
-                                    <li>Water Added: {{this.water_added}} Liters</li>
-                                    <li>Current Food Level: {{this.current_food_level}}</li>
-                                    <li>Cat Count: {{this.cat_count}}</li>
-                                    <li>Health Issue: {{this.health_issue}}</li>
-                                </ul>
-                            </div>
-                            <div class="text"></div>
-                            <img src="/images/{{this.image}}" alt="image" style="width: 30%; height: auto;">
-                        </div>
+                          <div class="fs-4 fw-semibold">{{this.location}}</div>
+                          <img style="width: 50%; height: auto; margin-top: 10px; margin-bottom: 10px;" src="images/{{this.image}}">
+                          <div class="container" style="text-align: left; margin-top: 20px; margin-bottom: 20px;">{{this.description}}</div>
+                          <a style="text-decoration: none; color:black;" href="/posts/{{this.name}}"><button style="font-size: 15px; margin: 20px auto 20px auto;" class="btn btn-light" type="button" fdprocessedid="y9xouh"><strong>View Posts</strong></button></a>
                         
+                        </div>
                       </div>
                   </div>
                 </div>
               {{/each}}
-                <a style="text-decoration: none; color: black;" href="/posts/{{data.name}}/add"><button style="font-size: 15px; display: block; margin: 20px auto 20px auto;" class="btn btn-light" type="button" fdprocessedid="y9xouh"><strong>Add Post</strong></button></a>
+                  
+              
             </div>
           </div>
         </div>
