@@ -3,7 +3,7 @@ const business = require('./business.js')
 const bodyParser = require('body-parser') 
 const cookieParser = require('cookie-parser') 
 const handlebars = require('express-handlebars')
-const path = require('path');
+const path = require('path')
 const fileUpload=require('express-fileupload')
 
 
@@ -35,21 +35,13 @@ app.get('/', async (req, res) => {
     res.render('index', {layout: false, userData: userData})
 })
 
-app.get('/charts', async (req, res) => {
-    
-    res.render('charts', {layout: false})
-})
+
 
 app.get('/404', (req, res) => {
     
     res.render('404', {layout: false})
 })
 
-
-app.get('/500', (req, res) => {
-    
-    res.render('500', {layout: false})
-})
 
 app.get('/locations', async (req, res) => {
     userData = ''
@@ -89,7 +81,7 @@ app.post('/login', async (req, res) => {
         res.redirect('/')
     }
     else if(userType == 'admin'){
-        res.redirect('/')
+        res.redirect('/dashboard')
     }
 
 })
@@ -188,10 +180,7 @@ app.get('/dashboard', async (req, res) => {
     res.render('dashboard', {layout: false, allLocations: allLocations, userData: sessionData.data})
 })
 
-app.get('/widgets', async (req, res) => {
-    
-    res.render('widgets', {layout: false})
-})
+
 
 app.use('/posts/:name', express.static(path.join(__dirname, 'coreui')))
 

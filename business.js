@@ -21,7 +21,7 @@ async function checkLogin(username, password) {
 
 async function startSession(data) {
     let sessionkey = crypto.randomUUID()
-    let expiry = new Date(Date.now() + 1000*60*5)
+    let expiry = new Date(Date.now() + 1000*60*10)
     await persistence.saveSession(sessionkey, expiry, data)
     return {
         sessionkey: sessionkey,
