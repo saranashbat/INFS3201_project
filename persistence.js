@@ -75,6 +75,19 @@ async function addPost(locationName, postData){
     await locations.updateOne({ name: locationName }, { $push: { posts: postData } })
 }
 
+async function registerUser(data){
+    await connectDatabase()
+    let accounts = db.collection('UserAccounts')
+
+    await accounts.insertOne(data)
+}
+
+async function updateSessionData(key, data) {
+    await connectDatabase()
+    let sessionData = db.collection('SessionData')
+    await sessionData.replaceOne({sessionkey: key}, data)
+}
+
 module.exports = {
-    getUserDetails, saveSession, getSessionData, deleteSession, getAllLocations, getLocation, addPost
+    getUserDetails, saveSession, getSessionData, deleteSession, getAllLocations, getLocation, addPost, registerUser, updateSessionData
 }

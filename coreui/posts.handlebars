@@ -54,10 +54,9 @@
             <svg class="nav-icon">
               <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-location-pin"></use>
             </svg> Locations</a></li>
-        <li class="nav-item"><a class="nav-link" href="/typography">
-            <svg class="nav-icon">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
-            </svg> Typography</a></li>
+        
+        
+
         <li class="nav-title">Components</li>
         <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
             <svg class="nav-icon">
@@ -260,7 +259,7 @@
                 {{#each data.posts}}
                 <div class="row" style="margin-top: 50px; margin-bottom: 50px;">
                   <div style="text-align: left" >
-                      <div class="card">
+                      <div class="card" style="background-color: #f7fbff;">
                         <div class="card-body">
                             <div class="card-title fw-bold">{{this.title}}</div>
                             <div class="fw-light fs-6">{{this.user}}</div>
@@ -269,8 +268,8 @@
                             <div class="card-title">Visit Details</div>
                             <div class="card-body">
                                 <ul>
-                                    <li>Food Added: {{this.food_added}}</li>
-                                    <li>Water Added: {{this.water_added}}</li>
+                                    <li>Food Added: {{this.food_added}} kg</li>
+                                    <li>Water Added: {{this.water_added}} Liters</li>
                                     <li>Current Food Level: {{this.current_food_level}}</li>
                                     <li>Cat Count: {{this.cat_count}}</li>
                                     <li>Health Issue: {{this.health_issue}}</li>
@@ -284,7 +283,7 @@
                   </div>
                 </div>
               {{/each}}
-                <a style="text-decoration: none; color: black;" href="/posts/{{data.name}}/add"><button style="font-size: 15px; display: block; margin: 20px auto 20px auto;" class="btn btn-light" type="button" fdprocessedid="y9xouh">Add Post</button></a>
+                <a style="text-decoration: none; color: black;" href="/posts/{{data.name}}/add"><button style="font-size: 15px; display: block; margin: 20px auto 20px auto;" class="btn btn-light" type="button" fdprocessedid="y9xouh"><strong>Add Post</strong></button></a>
             </div>
           </div>
         </div>

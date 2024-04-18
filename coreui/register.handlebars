@@ -47,34 +47,66 @@
           <div class="col-md-6">
             <div class="card mb-4 mx-4">
               <div class="card-body p-4">
+                <form method="POST">
                 <h1>Register</h1>
                 <p class="text-medium-emphasis">Create your account</p>
+                {{#if errors.usernameError}}
+                        <div class="container" style="margin-bottom: 20px; color: red;">{{errors.usernameError}}</div>
+                {{/if}}
+                {{#if errors.userExistsError}}
+                        <div class="container" style="margin-bottom: 20px; color: red;">{{errors.userExistsError}}</div>
+                {{/if}}
                 <div class="input-group mb-3"><span class="input-group-text">
                     <svg class="icon">
                       <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-user"></use>
 
                     </svg></span>
-                  <input class="form-control" type="text" placeholder="Username">
+                  {{#if username}}
+                    <input class="form-control" type="text" name="username" value="{{username}}">
+                  {{else}}
+                    <input class="form-control" type="text" name="username" placeholder="Username">
+                  {{/if}}
                 </div>
+                {{#if errors.emailError}}
+                        <div class="container" style="margin-bottom: 20px; color: red;">{{errors.emailError}}</div>
+                {{/if}}
                 <div class="input-group mb-3"><span class="input-group-text">
                     <svg class="icon">
                       <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
                     </svg></span>
-                  <input class="form-control" type="text" placeholder="Email">
+                  {{#if email}}
+                    <input class="form-control" name="email" type="text" value="{{email}}">
+                  {{else}}
+                    <input class="form-control" name="email" type="text" placeholder="Email">
+                  {{/if}}
                 </div>
+                {{#if errors.passwordError}}
+                        <div class="container" style="margin-bottom: 20px; color: red;">{{errors.passwordError}}</div>
+                {{/if}}
                 <div class="input-group mb-3"><span class="input-group-text">
                     <svg class="icon">
                       <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
                     </svg></span>
-                  <input class="form-control" type="password" placeholder="Password">
+                  {{#if password}}
+                    <input class="form-control" name="password" type="password" value="{{password}}">
+                  {{else}}
+                    <input class="form-control" name="password" type="password" placeholder="Password">
+                  {{/if}}
                 </div>
+                {{#if errors.repeatError}}
+                        <div class="container" style="margin-bottom: 20px; color: red;">{{errors.repeatError}}</div>
+                {{/if}}
                 <div class="input-group mb-4"><span class="input-group-text">
                     <svg class="icon">
                       <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
                     </svg></span>
-                  <input class="form-control" type="password" placeholder="Repeat password">
+                  <input class="form-control" type="password" name="repeatpassword" placeholder="Repeat password">
                 </div>
-                <button class="btn btn-block btn-success" type="button">Create Account</button>
+                {{#if errors.matchError}}
+                        <div class="container" style="margin-bottom: 20px; color: red;">{{errors.matchError}}</div>
+                {{/if}}
+                <button class="btn btn-block btn-success" type="submit">Create Account</button>
+                </form>
               </div>
             </div>
           </div>

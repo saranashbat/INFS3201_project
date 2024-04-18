@@ -49,7 +49,29 @@ async function addPost(locationName, postData){
     await persistence.addPost(locationName, postData)
 }
 
+async function registerUser(data){
+    data.password = computeHash(data.password)
+    await persistence.registerUser(data)
+}
+
+async function getUserDetails(username){
+    return await persistence.getUserDetails(username)
+}
+
+async function generateFormToken(sessionId) {
+    let token = crypto.randomUUID()
+    let sd = await persistence.getSessionData(sessionId)
+    sd.csrfToken = token
+    await persistence.updateSessionData(sessionId, sd)
+    return token
+}
+
+async function cancelToken(sessionId) {
+    let sd = await persistence.getSessionData(sessionId)
+    delete sd.csrfToken
+    await persistence.updateSessionData(sessionId, sd)
+}
 
 module.exports = {
-    checkLogin, startSession, getSessionData, deleteSession, getAllLocations, getLocation, addPost
+    checkLogin, startSession, getSessionData, deleteSession, getAllLocations, getLocation, addPost, registerUser, getUserDetails, generateFormToken, cancelToken
 }

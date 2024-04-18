@@ -7,58 +7,144 @@
  * --------------------------------------------------------------------------
  */
 
+
+
 // random Numbers
 const random = () => Math.round(Math.random() * 100);
 
-// eslint-disable-next-line no-unused-vars
-const lineChart = new Chart(document.getElementById('canvas-1'), {
-  type: 'line',
-  data: {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [{
-      label: 'My First dataset',
-      backgroundColor: 'rgba(220, 220, 220, 0.2)',
-      borderColor: 'rgba(220, 220, 220, 1)',
-      pointBackgroundColor: 'rgba(220, 220, 220, 1)',
-      pointBorderColor: '#fff',
-      data: [random(), random(), random(), random(), random(), random(), random()]
-    }, {
-      label: 'My Second dataset',
-      backgroundColor: 'rgba(151, 187, 205, 0.2)',
-      borderColor: 'rgba(151, 187, 205, 1)',
-      pointBackgroundColor: 'rgba(151, 187, 205, 1)',
-      pointBorderColor: '#fff',
-      data: [random(), random(), random(), random(), random(), random(), random()]
-    }]
-  },
-  options: {
-    responsive: true
-  }
-});
+function formatDate(dateString) {
+  const options = { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' };
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', options);
+}
 
-// eslint-disable-next-line no-unused-vars
-const barChart = new Chart(document.getElementById('canvas-2'), {
-  type: 'bar',
-  data: {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [{
-      backgroundColor: 'rgba(220, 220, 220, 0.5)',
-      borderColor: 'rgba(220, 220, 220, 0.8)',
-      highlightFill: 'rgba(220, 220, 220, 0.75)',
-      highlightStroke: 'rgba(220, 220, 220, 1)',
-      data: [random(), random(), random(), random(), random(), random(), random()]
-    }, {
-      backgroundColor: 'rgba(151, 187, 205, 0.5)',
-      borderColor: 'rgba(151, 187, 205, 0.8)',
-      highlightFill: 'rgba(151, 187, 205, 0.75)',
-      highlightStroke: 'rgba(151, 187, 205, 1)',
-      data: [random(), random(), random(), random(), random(), random(), random()]
-    }]
-  },
-  options: {
-    responsive: true
-  }
-});
+(async () => {
+  let response = await fetch(`/dashboard/data`)
+  let data = await response.json()
+
+  document.getElementById('latest').innerHTML = `
+    <div class="card-body">
+      <svg style="width: 1.5em; height: 1.5em;">
+      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-calendar"></use>
+      </svg>
+      <strong>${data.allLocations[0].location}</strong>: ${formatDate(data.latestPosts[0].timestamp)}
+    </div>
+
+    <div class="card-body">
+      <svg style="width: 1.5em; height: 1.5em;">
+      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-calendar"></use>
+      </svg>
+      <strong>${data.allLocations[1].location}</strong>: ${formatDate(data.latestPosts[1].timestamp)}
+    </div>
+
+    <div class="card-body">
+      <svg style="width: 1.5em; height: 1.5em;">
+        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-calendar"></use>
+      </svg>
+      <strong>${data.allLocations[2].location}</strong>: ${formatDate(data.latestPosts[2].timestamp)}
+    </div>
+  `
+  document.getElementById('health').innerHTML = `
+    <div class="card-body">
+    <svg style="width: 1.5em; height: 1.5em;">
+      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-paw"></use>
+    </svg>
+    <strong>${data.allLocations[0].location}</strong>: ${data.latestPosts[0].health_issue}
+    </div>
+
+    <div class="card-body">
+    <svg style="width: 1.5em; height: 1.5em;">
+      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-paw"></use>
+    </svg>
+    <strong>${data.allLocations[1].location}</strong>: ${data.latestPosts[1].health_issue}
+    </div>
+  
+    <div class="card-body">
+    <svg style="width: 1.5em; height: 1.5em;">
+      <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-paw"></use>
+    </svg>
+    <strong>${data.allLocations[2].location}</strong>: ${data.latestPosts[2].health_issue}
+    </div>
+
+  `
+
+  // eslint-disable-next-line no-unused-vars
+  const barChart1 = new Chart(document.getElementById('canvas-2'), {
+    type: 'bar',
+    data: {
+      labels: [data.allLocations[0].location, data.allLocations[1].location, data.allLocations[2].location],
+      datasets: [{
+        backgroundColor: 'rgba(204, 85, 0, 0.5)', // Burnt orange background color
+        borderColor: 'rgba(204, 85, 0, 0.8)', // Burnt orange border color
+        highlightFill: 'rgba(204, 85, 0, 0.75)', // Burnt orange highlight fill color
+        highlightStroke: 'rgba(204, 85, 0, 1)',
+        
+        data: [data.latestPosts[0].food_added, data.latestPosts[1].food_added, data.latestPosts[2].food_added]
+      }]
+    },
+    options: {
+      responsive: true,
+      
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Feeding Site',
+            font: {weight: 'bold', size: 15}
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Food (kg)',
+            font: {weight: 'bold', size: 15}
+
+          }
+        }
+      }
+    }
+  });
+
+  // eslint-disable-next-line no-unused-vars
+  const barChart2 = new Chart(document.getElementById('canvas-2-1'), {
+    type: 'bar',
+    data: {
+      labels: [data.allLocations[0].location, data.allLocations[1].location, data.allLocations[2].location],
+      datasets: [{
+        backgroundColor: 'rgba(151, 187, 205, 0.5)',
+        borderColor: 'rgba(151, 187, 205, 0.8)',
+        highlightFill: 'rgba(151, 187, 205, 0.75)',
+        highlightStroke: 'rgba(151, 187, 205, 1)',
+        data: [data.latestPosts[0].water_added, data.latestPosts[1].water_added, data.latestPosts[2].water_added]
+      }]
+    },
+    options: {
+      responsive: true,
+      
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Feeding Site',
+            font: {weight: 'bold', size: 15}
+
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Water (Liters)',
+            font: {weight: 'bold', size: 15}
+
+          }
+        }
+      }
+    }
+  });
+
+})()
+
+
 
 // eslint-disable-next-line no-unused-vars
 const doughnutChart = new Chart(document.getElementById('canvas-3'), {

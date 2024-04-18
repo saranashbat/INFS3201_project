@@ -81,8 +81,58 @@ app.get('/register', (req, res) => {
     res.render('register', {layout: false})
 })
 
+app.post('/register', async (req, res) => {
+
+    let errors = {}
+
+    if (!req.body.username || req.body.username.trim() == '') {
+        errors.usernameError = "Please enter a username."
+
+    }else{
+        let user = await business.getUserDetails(req.body.username)
+        if(user){
+            errors.userExistsError = "This username already exists."
+        }
+    }
+
+
+    if (!req.body.email || req.body.email.trim() == '') {
+        errors.emailError = "Please enter an email."
+    }
+
+    if (!req.body.password || req.body.password.trim() == '') {
+        errors.passwordError = "Please enter a password."
+    }
+
+    if (!req.body.repeatpassword || req.body.repeatpassword.trim() == '') {
+        errors.repeatError = "Please re-enter your password."
+
+    }else if (req.body.password !== req.body.repeatpassword){
+        errors.matchError = "Your password does not match the re-entered password."
+    }
+
+    if (Object.keys(errors).length > 0) {
+        res.render('register', { layout: false, errors: errors, username: req.body.username, email: req.body.email, password: req.body.password })
+        return
+    }
+
+    let postData = {
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+        usertype: "member"
+    }
+
+    await business.registerUser(postData)
+
+    let message = "Registered Successfully"
+
+    res.redirect(`/?message=${message}`)
+
+})
+
 app.get('/typography', async (req, res) => {
-    let sessionKey = req.cookies.session
+    /*let sessionKey = req.cookies.session
     if (!sessionKey) {
         res.redirect("/login?message=Not logged in")
         return
@@ -96,9 +146,11 @@ app.get('/typography', async (req, res) => {
     if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'admin') {
         res.redirect("/login?message=Invalid User Type")
         return
-    }
+    }*/
     
-    res.render('typography', {layout: false})
+    let allLocations = await business.getAllLocations()
+
+    res.render('typography', {layout: false, allLocations: allLocations})
 })
 
 app.get('/widgets', async (req, res) => {
@@ -145,7 +197,9 @@ app.get('/posts/:name/add', async (req, res) =>{
         return
     }
 
-    res.render('addpost', {layout: false, data: data})
+    let token = await business.generateFormToken(sessionKey)
+
+    res.render('addpost', {layout: false, data: data, csrfToken: token})
 })
 
 
@@ -170,6 +224,18 @@ app.post('/posts/:name/add', async (req, res) =>{
 
     if (sessionData && sessionData.data && sessionData.data.usertype && sessionData.data.usertype != 'member') {
         res.redirect("/login?message=Invalid User Type")
+        return
+    }
+
+    let token = req.body.csrfToken
+    if (!sessionData.csrfToken) {
+        let message = "CSRF token issue"
+        res.redirect(`/posts/${data.name}?message=${message}`)
+        return
+    }
+    if (sessionData.csrfToken != token) {
+        let message = "CSRF token issue"
+        res.redirect(`/posts/${data.name}?message=${message}`)
         return
     }
 
@@ -222,14 +288,41 @@ app.post('/posts/:name/add', async (req, res) =>{
 
     await business.addPost(locationName, postData)
 
-    let message = 'Post Added'
+    await business.cancelToken(sessionKey)
 
+    let message = 'Post Added'
     res.redirect(`/posts/${location}?message=${message}`)
+})
+
+app.get('/dashboard/data', async (req, res) => {
+    let allLocations = await business.getAllLocations()
+
+    let latestPosts = []
+    for (i of allLocations){
+        let latestPost = null
+        let latestDate = null
+
+        for (post of i.posts){
+            const postDate = new Date(post.timestamp);
+            if(!latestDate || postDate > latestDate){
+                latestDate = postDate
+                latestPost = post
+            }
+        }
+        latestPosts.push(latestPost)
+    }
+
+    let response = {
+        allLocations: allLocations,
+        latestPosts: latestPosts
+
+    }
+    res.json(response)
 })
 
 app.use((req,res) => {
     res.status(404).render('404', {layout: undefined});
-});
+})
 
 
 app.listen(8000, () => {console.log('Running')})
